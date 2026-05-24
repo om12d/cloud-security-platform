@@ -1,33 +1,54 @@
-# Cloud Security Threat Detection Platform
+# Cloud Security Hardening & Auto-Remediation Platform
 
-A real-time cloud security monitoring system built on AWS that automatically detects threats, analyzes CloudTrail logs, and sends instant alerts.
+A production-grade AWS cloud security platform that detects threats, automatically remediates violations, analyzes IAM policies, and generates CIS Benchmark compliance reports.
 
-## Architecture
-- **AWS CloudTrail** — Monitors and records all AWS account activity
-- **AWS S3** — Stores CloudTrail logs securely
-- **Python Detector** — Analyzes logs and flags suspicious events
-- **AWS SNS** — Sends real-time email alerts when threats are detected
+## Platform Capabilities
 
-## Features
-- Real-time threat detection from CloudTrail logs
-- Automated email alerting via AWS SNS
-- Detects: unauthorized access, IAM changes, suspicious API calls
-- Generates JSON threat reports with timestamps
+| Module | Description | Tech |
+|---|---|---|
+| Threat Detection | Scans CloudTrail logs, flags suspicious events | Python, AWS S3, CloudTrail |
+| Auto-Remediation | Automatically fixes S3 and SSH violations | Python, AWS Lambda, SNS |
+| IAM Analyzer | Scans all IAM users and roles for overpermissive access | Python, AWS IAM |
+| Config Rules | 6 CIS security rules continuously monitoring AWS resources | AWS Config |
+| Compliance Report | Generates PDF CIS Benchmark report with live AWS data | Python, ReportLab |
+
+## Results
+
+- Detected 11 live threats on first scan (Project 1)
+- Auto-remediated S3 public access violation in real time
+- Found 2 IAM security findings (1 CRITICAL) on live account
+- CIS Benchmark Score: 87% (7/8 checks passed)
+- 6 AWS Config rules actively monitoring account 24/7
 
 ## Project Structure
 cloud-security-platform/
-├── threat-detector/
-│   └── detector.py       # Core threat detection engine
-├── alert-system/
-│   └── alerter.py        # AWS SNS alerting system
-├── main.py               # Main orchestration engine
-└── logs/                 # Generated threat reports
+├── threat-detector/        # CloudTrail log scanner
+├── alert-system/           # AWS SNS email alerting
+├── config-rules/           # AWS Config security rules
+├── lambda-remediation/     # Auto-fix engine
+├── iam-analyzer/           # IAM policy scanner
+├── compliance-report/      # CIS Benchmark PDF generator
+└── main.py                 # Main orchestrator
+## Tech Stack
+
+Python · AWS CloudTrail · AWS Config · AWS Lambda · AWS IAM · AWS SNS · AWS S3 · boto3 · ReportLab · GitHub Actions
+
 ## Setup
+
 ```bash
-pip install boto3
+git clone https://github.com/om12d/cloud-security-platform
+cd cloud-security-platform
+py -m pip install boto3 reportlab
 aws configure
-python main.py
+py main.py
 ```
 
-## Tech Stack
-Python · AWS CloudTrail · AWS S3 · AWS SNS · boto3 · IAM
+## Security Checks Covered
+
+- S3 public access blocking
+- SSH unrestricted access (0.0.0.0/0)
+- IAM MFA enforcement
+- Root account MFA
+- CloudTrail logging
+- EBS volume encryption
+- Auto-remediation with real-time alerts
